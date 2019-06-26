@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: myDB
+    spec:
+      containers:
+        - name: kubesql
+          image: prakashabd/kube_mysql
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+          - name: persistent-volume
+            mountPath: /var/lib/mysql
+      volumes:
+      - name: persistent-volume
+        persistentVolumeClaim:
+          claimName: mysql-pvc
